@@ -10,6 +10,8 @@ The Selenium Webdriver based automated accpetance tests for the Gluu Server.
 
 ## Run Tests
 
+Edit `tests/config.py`
+
 ```
 pip install -r requirements.txt
 nosetests
