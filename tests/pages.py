@@ -1,7 +1,9 @@
-from locators import LoginPageSelectors as LPS, OrgConfPageSelectors as OCPS
+from locators import LoginPageSelectors as LPS, OrgConfPageSelectors as OCPS, \
+        ProfilePageSelectors as PPS
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import NoSuchElementException
 
 
 class BasePage(object):
@@ -54,3 +56,25 @@ class OrganizationConfigPage(BasePage):
         select = Select(self.driver.find_element(*OCPS.PASSWORD_RESET_SELECT))
         select.select_by_value(OCPS.DISABLED_VALUE)
         self.driver.find_element(*OCPS.UPDATE_BUTTON).click()
+
+    def enable_profile_editing(self):
+        select = Select(self.driver.find_element(*OCPS.PROFILE_EDIT_SELECT))
+        select.select_by_value(OCPS.ENABLED_VALUE)
+        self.driver.find_element(*OCPS.UPDATE_BUTTON).click()
+
+    def disable_profile_editing(self):
+        select = Select(self.driver.find_element(*OCPS.PROFILE_EDIT_SELECT))
+        select.select_by_value(OCPS.DISABLED_VALUE)
+        self.driver.find_element(*OCPS.UPDATE_BUTTON).click()
+
+
+class ProfilePage(BasePage):
+    def is_editable(self):
+        """Returns boolean if the profile has edit options or not"""
+        try:
+            # The Attribute Box and the Update button confirm editability
+            self.driver.find_element(*PPS.ATTR_BOX)
+            self.driver.find_element(*PPS.UPDATE_BUTTON)
+            return True
+        except NoSuchElementException:
+            return False

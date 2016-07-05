@@ -28,3 +28,10 @@ class MenuItems(object):
     WHITE_PAGES = (By.PARTIAL_LINK_TEXT, 'White Pages')
     CONFIG = (By.PARTIAL_LINK_TEXT, 'Configuration')
     PERSONAL = (By.PARTIAL_LINK_TEXT, 'Personal')
+    PROFILE = (By.PARTIAL_LINK_TEXT, 'Profile')
+
+
+class ProfilePageSelectors(object):
+    """A class to hold the selectors for the Profile page"""
+    ATTR_BOX = (By.ID, 'personForm:attributeTabPanelGroupId')
+    UPDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Update"]')
