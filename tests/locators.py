@@ -29,9 +29,18 @@ class MenuItems(object):
     CONFIG = (By.PARTIAL_LINK_TEXT, 'Configuration')
     PERSONAL = (By.PARTIAL_LINK_TEXT, 'Personal')
     PROFILE = (By.PARTIAL_LINK_TEXT, 'Profile')
+    USERS = (By.PARTIAL_LINK_TEXT, 'Users')
+    MANAGE_GROUPS = (By.PARTIAL_LINK_TEXT, 'Manage Groups')
 
 
 class ProfilePageSelectors(object):
     """A class to hold the selectors for the Profile page"""
     ATTR_BOX = (By.ID, 'personForm:attributeTabPanelGroupId')
     UPDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Update"]')
+
+
+class GroupSelectors(object):
+    """A class to hold the selectors for the `Manage Groups` page selectors"""
+    SEARCH_BOX = (By.XPATH, '//input[@type="text"]')
+    SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
+    GROUPS_TABLE = (By.ID, 'groupsFormId:groupsListId')
