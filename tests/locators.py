@@ -40,7 +40,24 @@ class ProfilePageSelectors(object):
 
 
 class GroupSelectors(object):
-    """A class to hold the selectors for the `Manage Groups` page selectors"""
+    """A class to hold the selectors for the `Manage Groups` page"""
     SEARCH_BOX = (By.XPATH, '//input[@type="text"]')
     SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
     GROUPS_TABLE = (By.ID, 'groupsFormId:groupsListId')
+
+
+class AddGroupSelectors(object):
+    """A class to hold the selectors for the `Add Group` page"""
+    NAME_INPUT = (By.ID, 'j_idt116:displayName:displayNameIdInput')
+    TYPE_SELECT = (By.ID, 'j_idt116:visibility:visibilityId')
+    DESCRIPTION = (By.ID, 'j_idt116:description:descriptionId')
+    ADD_MEMBER_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add member"]')
+    ADD_BUTTON = (By.NAME, 'j_idt116:j_idt204')
+    CANCEL_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Cancel"]')
+    SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
+    SEARCH_INPUT = (By.ID, 'member:j_idt211:searchPattern:searchMemberPatternId')
+    MEMBER_ROWS = (By.XPATH, '//tr[contains(@id, "member:j_idt211:memberListId")]')
+    OK_BUTTON = (By.ID, 'member:j_idt211:j_idt257')
+    SELECTED_MEMBERS_SPAN = (By.ID, 'j_idt116:members:selectedMembersId')
+    PUBLIC = 'PUBLIC'
+    PRIVATE = 'PRIVATE'
