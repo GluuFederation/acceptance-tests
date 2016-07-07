@@ -102,4 +102,24 @@ class GroupsTestCase(unittest.TestCase):
         except NoSuchElementException:
             self.fail('The "Updated Group" is not present when searched for `Updated`')
 
+    def test_04_delete_group(self):
+        """Delete users group."""
+        # Step 1: Navigate to the Manage Groups Page
+        self.browser.find_element(*MenuItems.USERS).click()
+        self.browser.find_element(*MenuItems.MANAGE_GROUPS).click()
+
+        # Step 2: Search for the group and open its `add group` page
+        mp = ManageGroupsPage(self.browser)
+        mp.search('Updated')
+        self.browser.find_element_by_link_text('Updated Group').click()
+        # Step 3: Delete the group
+        ag_page = AddGroupPage(self.browser)
+        ag_page.delete_group()
+
+        # Step 4: Confirm the group is deleted
+        mp = ManageGroupsPage(self.browser)
+        mp.search('Updated')
+        with self.assertRaises(NoSuchElementException):
+            self.browser.find_element_by_link_text('Updated Group')
+
 

@@ -66,7 +66,11 @@ class AddGroupPage(BasePage):
                 checkbox.click()
 
         # Step 4: Click OK
-        self.driver.find_element(*AddGroupSelectors.OK_BUTTON).click()
+        self.driver.find_element(*AddGroupSelectors.USER_OK_BUTTON).click()
+
+    def delete_group(self):
+        self.driver.find_element(*AddGroupSelectors.DELETE_BUTTON).click()
+        self.driver.find_element(*AddGroupSelectors.DELETE_OK_BUTTON).click()
 
 
 

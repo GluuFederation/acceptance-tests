@@ -59,7 +59,8 @@ class AddGroupSelectors(object):
     UPDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Update"]')
     SEARCH_INPUT = (By.ID, 'member:j_idt211:searchPattern:searchMemberPatternId')
     MEMBER_ROWS = (By.XPATH, '//tr[contains(@id, "member:j_idt211:memberListId")]')
-    OK_BUTTON = (By.ID, 'member:j_idt211:j_idt257')
+    USER_OK_BUTTON = (By.ID, 'member:j_idt211:j_idt257')
     SELECTED_MEMBERS_SPAN = (By.ID, 'j_idt116:members:selectedMembersId')
     PUBLIC = 'PUBLIC'
     PRIVATE = 'PRIVATE'
+    DELETE_OK_BUTTON = (By.ID, 'deleteConfirmation:j_idt265:j_idt272')
