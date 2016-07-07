@@ -71,10 +71,3 @@ class AddGroupPage(BasePage):
     def delete_group(self):
         self.driver.find_element(*AddGroupSelectors.DELETE_BUTTON).click()
         self.driver.find_element(*AddGroupSelectors.DELETE_OK_BUTTON).click()
-
-
-
-
-
-
-
