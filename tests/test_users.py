@@ -3,6 +3,7 @@ Title: Test pages under the Users menu.
 Component: oxTrust
 
 """
+import time
 import unittest
 
 from selenium import webdriver
@@ -27,7 +28,7 @@ class GroupsTestCase(unittest.TestCase):
     def tearDownClass(cls):
         cls.browser.quit()
 
-    def test_manage_groups_listing(self):
+    def test_01_search_and_listing(self):
         """Manage Groups page search works as expected"""
         # Step 1: Navigate to the Manage Groups page
         self.browser.find_element(*MenuItems.USERS).click()
@@ -44,8 +45,8 @@ class GroupsTestCase(unittest.TestCase):
         except NoSuchElementException:
             self.fail('The "Gluu Manager Group" was not populated when searched for `Gluu`')
 
-    def test_add_groups(self):
-        """New groups are created using `Add Group` button"""
+    def test_02_add_group(self):
+        """New group created using `Add Group` button"""
         # Step 1: Navigate to the Manage Groups Page
         self.browser.find_element(*MenuItems.USERS).click()
         self.browser.find_element(*MenuItems.MANAGE_GROUPS).click()
@@ -56,9 +57,49 @@ class GroupsTestCase(unittest.TestCase):
         # Step 3: Enter the value for `Display name`, Visibility type, and description
         ag_page = AddGroupPage(self.browser)
         ag_page.fill_details('Test Group', AddGroupSelectors.PUBLIC, 'Test Description')
-        # Step 4: Add the admin as a member of the group
+        # Step 4: Add the admin as a member of the group and check it's listed
         ag_page.add_member('admin')
-        # Step 5: Verify that the admin is added to the members list
-        self.assertIn('Default Admin User', self.browser.find_element_by_tag_name('body').text)
-        # Step 6: Click `Add` to create the group
+        time.sleep(2)
+        self.assertIn('Default Admin User', self.browser.find_element(*AddGroupSelectors.SELECTED_MEMBERS_SPAN).text)
+
+        # Step 5: Click `Add` to create the group and verify its listing
         self.browser.find_element(*AddGroupSelectors.ADD_BUTTON).click()
+
+        self.browser.find_element(*MenuItems.USERS).click()
+        self.browser.find_element(*MenuItems.MANAGE_GROUPS).click()
+        mp = ManageGroupsPage(self.browser)
+        mp.search('Test')
+        try:
+            self.browser.find_element(*GroupSelectors.GROUPS_TABLE)
+            self.browser.find_element_by_link_text('Test Group')
+        except NoSuchElementException:
+            self.fail('The "Test Group" is not present when searched for `Test`')
+
+    def test_03_update_group(self):
+        """Update the details of an existing group"""
+        # Step 1: Navigate to the Manage Groups Page
+        self.browser.find_element(*MenuItems.USERS).click()
+        self.browser.find_element(*MenuItems.MANAGE_GROUPS).click()
+
+        # Step 2: Search for Test Group and open the `Add Group` page
+        mp = ManageGroupsPage(self.browser)
+        mp.search('Test')
+        self.browser.find_element_by_link_text('Test Group').click()
+
+        # Step 3: Update the Group name, visibility and description
+        ag_page = AddGroupPage(self.browser)
+        ag_page.fill_details('Updated Group', AddGroupSelectors.PRIVATE, 'Updated Description')
+        self.browser.find_element(*AddGroupSelectors.UPDATE_BUTTON).click()
+
+        # Step 4: Verify that the new details have been updated
+        self.browser.find_element(*MenuItems.USERS).click()
+        self.browser.find_element(*MenuItems.MANAGE_GROUPS).click()
+        mp = ManageGroupsPage(self.browser)
+        mp.search('Updated')
+        try:
+            self.browser.find_element(*GroupSelectors.GROUPS_TABLE)
+            self.browser.find_element_by_link_text('Updated Group')
+        except NoSuchElementException:
+            self.fail('The "Updated Group" is not present when searched for `Updated`')
+
+

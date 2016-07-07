@@ -22,6 +22,7 @@ class ManageGroupsPage(BasePage):
     def search(self, term):
         """Perform search operation for the given term"""
         searchBox = self.driver.find_element(*GroupSelectors.SEARCH_BOX)
+        searchBox.clear()
         searchBox.send_keys(term)
         self.driver.find_element(*GroupSelectors.SEARCH_BUTTON).click()
 
@@ -38,10 +39,14 @@ class AddGroupPage(BasePage):
                          AddGroupSelectors.PRIVATE
             description (string): description of the group
         """
-        self.driver.find_element(*AddGroupSelectors.NAME_INPUT).send_keys(group_name)
+        name = self.driver.find_element(*AddGroupSelectors.NAME_INPUT)
+        name.clear()
+        name.send_keys(group_name)
         select = Select(self.driver.find_element(*AddGroupSelectors.TYPE_SELECT))
         select.select_by_value(visibility)
-        self.driver.find_element(*AddGroupSelectors.DESCRIPTION).send_keys(description)
+        desc = self.driver.find_element(*AddGroupSelectors.DESCRIPTION)
+        desc.clear()
+        desc.send_keys(description)
 
     def add_member(self, username):
         # Step 1: Click the `Add Member` button
