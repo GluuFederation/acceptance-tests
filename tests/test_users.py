@@ -9,14 +9,21 @@ import uuid
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from .config import url, user, password
 from .pages import LoginPage
-from .user_pages import ManageGroupsPage, AddGroupPage
-from .locators import MenuItems, GroupSelectors, AddGroupSelectors
+from .user_pages import ManageGroupsPage, AddGroupPage, ManagePeoplePage, \
+        UpdateUserPage
+from .locators import MenuItems, GroupSelectors, AddGroupSelectors, \
+        ManagePeopleSelectors, UpdateUserSelectors
+
 
 
 class GroupsTestCase(unittest.TestCase):
+    """Tests for the Users -> Manage Groups page"""
     @classmethod
     def setupClass(cls):
         cls.browser = webdriver.Firefox()
@@ -130,10 +137,59 @@ class GroupsTestCase(unittest.TestCase):
         ag_page = AddGroupPage(self.browser)
         ag_page.delete_group()
 
-        #self.browser.refresh()
-        self.browser.find_element(*MenuItems.MANAGE_GROUPS).click()
+        wait = WebDriverWait(self.browser, 10)
+        wait.until(EC.element_to_be_clickable(GroupSelectors.SEARCH_BUTTON))
+        # Step 4: Verify deletion
         mp = ManageGroupsPage(self.browser)
         mp.search(self.group_name)
         with self.assertRaises(NoSuchElementException):
             self.browser.find_element_by_link_text(self.group_name)
+
+
+class ManagePeopleTestCase(unittest.TestCase):
+    """Tests for the Users -> Manage People page"""
+    @classmethod
+    def setupClass(cls):
+        cls.browser = webdriver.Firefox()
+        cls.browser.implicitly_wait(3)
+        cls.browser.get(url)
+        lp = LoginPage(cls.browser)
+        lp.login(user, password)
+        cls.username = str(uuid.uuid4())[0:6]
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.quit()
+
+    def test_01_search_for_users(self):
+        # Step 1: Navigate to the `Manage People` page
+        self.browser.find_element(*MenuItems.USERS).click()
+        self.browser.find_element(*MenuItems.MANAGE_PEOPLE).click()
+
+        # Step 2: Search
+        mp = ManagePeoplePage(self.browser)
+        mp.search('ad')
+
+        try:
+            self.browser.find_element(*ManagePeopleSelectors.USER_LIST_TABLE)
+            self.browser.find_element_by_link_text('admin')
+        except NoSuchElementException:
+            self.fail('Search result for user `ad` failed to show up')
+
+        mp.search('a')
+        error = self.browser.find_element(*ManagePeopleSelectors.ERROR_SPAN)
+        self.assertIn('Length of search string should be between 2 and 30', error.text)
+
+        mp.search('')
+        error = self.browser.find_element(*ManagePeopleSelectors.ERROR_SPAN)
+        self.assertIn('value is required', error.text)
+
+    def test_02_add_person(self):
+        self.browser.find_element(*ManagePeopleSelectors.ADD_PERSON_BUTTON).click()
+        up = UpdateUserPage(self.browser)
+        # Params: user, first, last, display, email
+        up.add_user(self.username, "User", self.username, "User "+self.username, self.username+"@test.org")
+
+
+
 

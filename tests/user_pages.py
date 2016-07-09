@@ -2,7 +2,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 
 from .pages import BasePage
-from .locators import GroupSelectors, AddGroupSelectors
+from .locators import GroupSelectors, AddGroupSelectors, ManagePeopleSelectors,\
+        UpdateUserSelectors
 
 
 class ManageGroupsPage(BasePage):
@@ -71,3 +72,34 @@ class AddGroupPage(BasePage):
     def delete_group(self):
         self.driver.find_element(*AddGroupSelectors.DELETE_BUTTON).click()
         self.driver.find_element(*AddGroupSelectors.DELETE_OK_BUTTON).click()
+
+
+class ManagePeoplePage(BasePage):
+    def search(self, query):
+        search_box = self.driver.find_element(*ManagePeopleSelectors.SEARCH_BOX)
+        search_box.clear()
+        search_box.send_keys(query)
+        self.driver.find_element(*ManagePeopleSelectors.SEARCH_BUTTON).click()
+
+
+class UpdateUserPage(BasePage):
+    def fill_details(self, user, first, last, display, email):
+        username = self.driver.find_element(*UpdateUserSelectors.USERNAME)
+        username.clear()
+        username.send_keys(user)
+        first_name = self.driver.find_element(*UpdateUserSelectors.FIRST_NAME)
+        first_name.clear()
+        first_name.send_keys(first)
+        display_name = self.driver.find_element(*UpdateUserSelectors.DISPLAY_NAME)
+        display_name.clear()
+        display_name.send_keys(display)
+        last_name = self.driver.find_element(*UpdateUserSelectors.LAST_NAME)
+        last_name.clear()
+        last_name.send_keys(last)
+        email_input = self.driver.find_element(*UpdateUserSelectors.EMAIL)
+        email_input.clear()
+        email_input.send_keys(email)
+
+    def add_user(self, user, first, last, display, email):
+        self.fill_details(user, first, last, display, email)
+        self.driver.find_element(*UpdateUserSelectors.ADD_BUTTON).click()

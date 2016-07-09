@@ -31,6 +31,7 @@ class MenuItems(object):
     PROFILE = (By.PARTIAL_LINK_TEXT, 'Profile')
     USERS = (By.PARTIAL_LINK_TEXT, 'Users')
     MANAGE_GROUPS = (By.PARTIAL_LINK_TEXT, 'Manage Groups')
+    MANAGE_PEOPLE = (By.PARTIAL_LINK_TEXT, 'Manage People')
 
 
 class ProfilePageSelectors(object):
@@ -64,3 +65,24 @@ class AddGroupSelectors(object):
     PUBLIC = 'PUBLIC'
     PRIVATE = 'PRIVATE'
     DELETE_OK_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Ok"][contains(@id, "deleteConfirmation")]')
+
+
+class ManagePeopleSelectors(object):
+    """A class to hold the selectors for the `Manage People` page"""
+    ADD_PERSON_BUTTON = (By.ID, 'j_idt115')
+    SEARCH_BOX = (By.XPATH, '//input[@type="text"][contains(@id, "search")]')
+    SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
+    USER_LIST_TABLE = (By.ID, 'personsFormId:personsListId')
+    ERROR_SPAN = (By.XPATH, '//span[@class="error"]')
+
+
+class UpdateUserSelectors(object):
+    """A class to hold the `Update User` page selectors"""
+    USERNAME = (By.ID, 'j_idt119:j_idt203:0:j_idt205:0:j_idt206:custIdInput')
+    FIRST_NAME = (By.ID, 'j_idt119:j_idt203:1:j_idt205:0:j_idt206:custIdInput')
+    DISPLAY_NAME = (By.ID, 'j_idt119:j_idt203:2:j_idt205:0:j_idt206:custIdInput')
+    LAST_NAME = (By.ID, 'j_idt119:j_idt203:3:j_idt205:0:j_idt206:custIdInput')
+    EMAIL = (By.ID, 'j_idt119:j_idt203:4:j_idt205:0:j_idt206:custIdInput')
+    ADD_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add"]')
+    CANCEL_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Cancel"]')
+
