@@ -74,6 +74,7 @@ class ManagePeopleSelectors(object):
     SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
     USER_LIST_TABLE = (By.ID, 'personsFormId:personsListId')
     ERROR_SPAN = (By.XPATH, '//span[@class="error"]')
+    SEARCH_RESULT_FORM = (By.ID, 'personsFormId')
 
 
 class UpdateUserSelectors(object):
@@ -83,6 +84,18 @@ class UpdateUserSelectors(object):
     DISPLAY_NAME = (By.ID, 'j_idt119:j_idt203:2:j_idt205:0:j_idt206:custIdInput')
     LAST_NAME = (By.ID, 'j_idt119:j_idt203:3:j_idt205:0:j_idt206:custIdInput')
     EMAIL = (By.ID, 'j_idt119:j_idt203:4:j_idt205:0:j_idt206:custIdInput')
+
+    # WARN: Flaky: The IDs change due to the position change in the update form
+    USERNAME_2 = (By.ID, 'j_idt119:j_idt203:8:j_idt205:0:j_idt206:custIdInput')
+    FIRST_NAME_2 = (By.ID, 'j_idt119:j_idt203:2:j_idt205:0:j_idt206:custIdInput')
+    DISPLAY_NAME_2 = (By.ID, 'j_idt119:j_idt203:0:j_idt205:0:j_idt206:custIdInput')
+    LAST_NAME_2 = (By.ID, 'j_idt119:j_idt203:5:j_idt205:0:j_idt206:custIdInput')
+    EMAIL_2 = (By.ID, 'j_idt119:j_idt203:1:j_idt205:0:j_idt206:custIdInput')
+
     ADD_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add"]')
     CANCEL_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Cancel"]')
+    CHANGE_PW_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Change Password"]')
+    UPDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Update"]')
+    DELETE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Delete"]')
+    DELETE_CONFIRM_OK = (By.XPATH, '//input[@type="submit"][@value="Ok"]')
 

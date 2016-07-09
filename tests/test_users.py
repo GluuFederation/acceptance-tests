@@ -137,9 +137,11 @@ class GroupsTestCase(unittest.TestCase):
         ag_page = AddGroupPage(self.browser)
         ag_page.delete_group()
 
+        # Step 4: Verify deletion
+        # adding explicit wait as there seems to be a page load delay here
         wait = WebDriverWait(self.browser, 10)
         wait.until(EC.element_to_be_clickable(GroupSelectors.SEARCH_BUTTON))
-        # Step 4: Verify deletion
+
         mp = ManageGroupsPage(self.browser)
         mp.search(self.group_name)
         with self.assertRaises(NoSuchElementException):
@@ -189,6 +191,51 @@ class ManagePeopleTestCase(unittest.TestCase):
         up = UpdateUserPage(self.browser)
         # Params: user, first, last, display, email
         up.add_user(self.username, "User", self.username, "User "+self.username, self.username+"@test.org")
+
+        try:
+            self.browser.find_element(*UpdateUserSelectors.UPDATE_BUTTON)
+        except NoSuchElementException:
+            self.fail('New user was not added.')
+
+        # TODO create users with other attributes apart from the defalut few
+
+    def test_03_update_user(self):
+        # Step 1: Navigate to the `Manage People` page
+        self.browser.find_element(*MenuItems.MANAGE_PEOPLE).click()
+        # Step 2: Search
+        mp = ManagePeoplePage(self.browser)
+        mp.search(self.username)
+
+        # Step 3: Update the user
+        self.browser.find_element_by_link_text(self.username).click()
+        up = UpdateUserPage(self.browser)
+        up.update_user(self.username, "Updated User", self.username, "Updated User "+self.username, self.username+"@test.org")
+
+        # Step 4: Verify updation
+        self.browser.find_element(*MenuItems.MANAGE_PEOPLE).click()
+        mp = ManagePeoplePage(self.browser)
+        mp.search(self.username)
+
+        try:
+            self.browser.find_element_by_link_text("Updated User "+self.username)
+        except NoSuchElementException:
+            self.fail("User data updation wasn't sucessful")
+
+    def test_04_delete_user(self):
+        # Step 1: Search and find the user
+        mp = ManagePeoplePage(self.browser)
+        mp.search(self.username)
+        self.browser.find_element_by_link_text("Updated User "+self.username).click()
+
+        # Step 2: Delete the user
+        self.browser.find_element(*UpdateUserSelectors.DELETE_BUTTON).click()
+        self.browser.find_element(*UpdateUserSelectors.DELETE_CONFIRM_OK).click()
+
+        # Step 3: Verify deletion
+        mp.search(self.username)
+        self.assertIn('No Search Result Found', self.browser.find_element(*ManagePeopleSelectors.SEARCH_RESULT_FORM).text)
+
+
 
 
 
