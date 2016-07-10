@@ -101,3 +101,9 @@ class UpdateUserSelectors(object):
     DELETE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Delete"]')
     DELETE_CONFIRM_OK = (By.XPATH, '//input[@type="submit"][@value="Ok"]')
 
+
+class ImportPeopleSelectors(object):
+    """A class to hold the selectors for the Import People page"""
+    FILE_INPUT = (By.XPATH, '//input[@type="file"]')
+    IMPORT_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Import"]')
+    VALIDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Validate"]')

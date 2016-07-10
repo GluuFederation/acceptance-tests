@@ -9,8 +9,7 @@ import uuid
 import os
 
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -19,7 +18,7 @@ from .pages import LoginPage
 from .user_pages import ManageGroupsPage, AddGroupPage, ManagePeoplePage, \
         UpdateUserPage
 from .locators import MenuItems, GroupSelectors, AddGroupSelectors, \
-        ManagePeopleSelectors, UpdateUserSelectors
+        ManagePeopleSelectors, UpdateUserSelectors, ImportPeopleSelectors
 
 
 
@@ -240,13 +239,18 @@ class ManagePeopleTestCase(unittest.TestCase):
         # Step 1: Navigate to the import people page
         self.browser.find_element(*MenuItems.IMPORT_PEOPLE).click()
         # Step 2: Set the document to upload
-        file_input = self.browser.find_element_by_xpath('//input[@type="file"]')
+        file_input = self.browser.find_element(*ImportPeopleSelectors.FILE_INPUT)
         directory = os.path.dirname(os.path.realpath(__file__))
         file_input.send_keys(os.path.join(directory, "data", "sample_users.xls"))
         # Step 3: Validate the document
-        self.browser.find_element_by_xpath('//input[@type="submit"][@value="Validate"]').click()
+        self.browser.find_element(*ImportPeopleSelectors.VALIDATE_BUTTON).click()
         # Step 4: Import and verify
-        self.browser.find_element_by_xpath('//input[@type="submit"][@value="Import"]').click()
+        try:
+            wait = WebDriverWait(self.browser, 10)
+            import_button = wait.until(EC.element_to_be_clickable(ImportPeopleSelectors.IMPORT_BUTTON))
+            import_button.click()
+        except TimeoutException:
+            self.fail("File validation failed. Watch browser for error.")
 
         mp = ManagePeoplePage(self.browser)
         mp.search("user")
