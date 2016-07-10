@@ -32,6 +32,8 @@ class MenuItems(object):
     USERS = (By.PARTIAL_LINK_TEXT, 'Users')
     MANAGE_GROUPS = (By.PARTIAL_LINK_TEXT, 'Manage Groups')
     MANAGE_PEOPLE = (By.PARTIAL_LINK_TEXT, 'Manage People')
+    IMPORT_PEOPLE = (By.PARTIAL_LINK_TEXT, 'Import People')
+
 
 
 class ProfilePageSelectors(object):

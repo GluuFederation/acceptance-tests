@@ -6,6 +6,7 @@ Component: oxTrust
 import time
 import unittest
 import uuid
+import os
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
@@ -235,8 +236,23 @@ class ManagePeopleTestCase(unittest.TestCase):
         mp.search(self.username)
         self.assertIn('No Search Result Found', self.browser.find_element(*ManagePeopleSelectors.SEARCH_RESULT_FORM).text)
 
+    def test_05_import_users(self):
+        # Step 1: Navigate to the import people page
+        self.browser.find_element(*MenuItems.IMPORT_PEOPLE).click()
+        # Step 2: Set the document to upload
+        file_input = self.browser.find_element_by_xpath('//input[@type="file"]')
+        directory = os.path.dirname(os.path.realpath(__file__))
+        file_input.send_keys(os.path.join(directory, "data", "sample_users.xls"))
+        # Step 3: Validate the document
+        self.browser.find_element_by_xpath('//input[@type="submit"][@value="Validate"]').click()
+        # Step 4: Import and verify
+        self.browser.find_element_by_xpath('//input[@type="submit"][@value="Import"]').click()
 
-
-
-
-
+        mp = ManagePeoplePage(self.browser)
+        mp.search("user")
+        try:
+            self.browser.find_element_by_link_text("user1")
+            self.browser.find_element_by_link_text("user2")
+            self.browser.find_element_by_link_text("user3")
+        except NoSuchElementException:
+            self.fail("Import Failed")
