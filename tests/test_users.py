@@ -122,7 +122,7 @@ class GroupsTestCase(unittest.TestCase):
         self.assertIn('Default Admin User', self.browser.find_element(*AddGroupSelectors.SELECTED_MEMBERS_SPAN).text)
 
     def test_05_remove_user_from_group(self):  # TODO
-        self.assertTrue(True)
+        self.fail('TODO: Test not written')
 
     def test_06_delete_group(self):
         # Step 1: Navigate to the Manage Groups Page
