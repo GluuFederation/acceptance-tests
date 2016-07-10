@@ -256,3 +256,12 @@ class ManagePeopleTestCase(unittest.TestCase):
             self.browser.find_element_by_link_text("user3")
         except NoSuchElementException:
             self.fail("Import Failed")
+
+        # Extra: Cleanup the imported users
+        users = ['user1', 'user2', 'user3']
+        for u in users:
+            mp = ManagePeoplePage(self.browser)
+            mp.search(u)
+            self.browser.find_element_by_link_text(u).click()
+            self.browser.find_element(*UpdateUserSelectors.DELETE_BUTTON).click()
+            self.browser.find_element(*UpdateUserSelectors.DELETE_CONFIRM_OK).click()
