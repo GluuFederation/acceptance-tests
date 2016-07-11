@@ -33,7 +33,9 @@ class MenuItems(object):
     MANAGE_GROUPS = (By.PARTIAL_LINK_TEXT, 'Manage Groups')
     MANAGE_PEOPLE = (By.PARTIAL_LINK_TEXT, 'Manage People')
     IMPORT_PEOPLE = (By.PARTIAL_LINK_TEXT, 'Import People')
-
+    OPENID_CONNECT = (By.PARTIAL_LINK_TEXT, 'OpenID Connect')
+    SCOPES = (By.PARTIAL_LINK_TEXT, 'Scopes')
+    CLIENTS = (By.PARTIAL_LINK_TEXT, 'Clients')
 
 
 class ProfilePageSelectors(object):
@@ -107,3 +109,9 @@ class ImportPeopleSelectors(object):
     FILE_INPUT = (By.XPATH, '//input[@type="file"]')
     IMPORT_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Import"]')
     VALIDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Validate"]')
+
+
+class ScopeSelectors(object):
+    """A class to hold the selectors for the OpenID Connect Scopes page"""
+    SEARCH_BOX = (By.XPATH, '//input[@type="text"][contains(@id, "searchPatternId")]')
+    SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
