@@ -84,7 +84,31 @@ class ScopesTestCase(unittest.TestCase):
         except NoSuchElementException:
             self.fail('Openid Test Scope was not added')
 
-    def test_03_add_claims_to_scope(self):
+    def test_03_update_scope_details(self):
+        # Step 1: Navigate to the Scopes page
+        self.browser.find_element(*MenuItems.SCOPES).click()
+
+        # Step 2: Search and list the required scope
+        sp = ScopesPage(self.browser)
+        sp.search('Test')
+
+        # Step 3: Open the Add scope page and update the detials
+        self.browser.find_element_by_link_text('Test Scope').click()
+        as_page = AddScopePage(self.browser)
+        as_page.fill_details('Updated Scope', 'An Updated Scope for Acceptance testing', AddScopeSelectors.DYNAMIC, False)
+        self.browser.find_element(*AddScopeSelectors.UPDATE_BUTTON).click()
+
+        # Step 4: Verify update was successful
+        self.browser.find_element(*MenuItems.SCOPES).click()
+        sp = ScopesPage(self.browser)
+        sp.search('Updated')
+
+        try:
+            self.browser.find_element_by_link_text('Updated Scope').click()
+        except NoSuchElementException:
+            self.fail('The scope was not updated.')
+
+    def test_04_add_claims_to_scope(self):
         # Step 1: Add claims
         as_page = AddScopePage(self.browser)
         as_page.add_claims()
@@ -98,7 +122,7 @@ class ScopesTestCase(unittest.TestCase):
         self.assertIn('Email', claims.text)
         self.assertIn('Home Address', claims.text)
 
-    def test_04_remove_claims_from_scope(self):
+    def test_05_remove_claims_from_scope(self):
         as_page = AddScopePage(self.browser)
         as_page.remove_claims()
         self.browser.find_element(*AddScopeSelectors.UPDATE_BUTTON).click()
@@ -107,12 +131,12 @@ class ScopesTestCase(unittest.TestCase):
         self.assertNotIn('Email', claims.text)
         self.assertNotIn('Home Address', claims.text)
 
-    def test_05_delete_scope(self):
+    def test_06_delete_scope(self):
         self.browser.find_element(*AddScopeSelectors.DELETE_BUTTON).click()
         self.browser.find_element(*AddScopeSelectors.DELETE_CONFIRM_OK).click()
 
         sp = ScopesPage(self.browser)
-        sp.search('Test')
+        sp.search('Updated')
 
         with self.assertRaises(NoSuchElementException):
-            self.browser.find_element_by_link_text('Test Scope')
+            self.browser.find_element_by_link_text('Updated Scope')
