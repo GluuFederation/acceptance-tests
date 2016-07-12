@@ -115,3 +115,17 @@ class ScopeSelectors(object):
     """A class to hold the selectors for the OpenID Connect Scopes page"""
     SEARCH_BOX = (By.XPATH, '//input[@type="text"][contains(@id, "searchPatternId")]')
     SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
+    ADD_SCOPE_BUTTON = (By.LINK_TEXT, 'Add Scope')
+
+
+class AddScopeSelectors(object):
+    """A class to hold the selectors of the Add Scope page of OpenID Connect"""
+    NAME = (By.ID, 'scopeForm:displayName:displayNameIdInput')
+    DESCRIPTION = (By.ID, 'scopeForm:description:descriptionId')
+    SCOPE_TYPE = (By.NAME, 'scopeForm:j_idt160:j_idt171')
+    DEFAULT_SCOPE = (By.NAME, 'scopeForm:j_idt177:j_idt188')
+    OPENID = 'OPENID'
+    LDAP = 'LDAP'
+    DYNAMIC = 'DYNAMIC'
+    ADD_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add"]')
+    ADD_CLAIM_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add Claim"]')

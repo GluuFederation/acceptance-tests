@@ -5,8 +5,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 from .config import url, user, password
 from .pages import LoginPage
-from .openid_pages import ScopesPage
-from .locators import MenuItems
+from .openid_pages import ScopesPage, AddScopePage
+from .locators import MenuItems, ScopeSelectors, AddScopeSelectors
 
 
 class OpenidTestCase(unittest.TestCase):
@@ -59,3 +59,24 @@ class ScopesTestCase(unittest.TestCase):
             self.browser.find_element_by_partial_link_text('profile')
         except NoSuchElementException:
             self.fail('Scope search listing failed')
+
+        sp.search('uma')
+        try:
+            self.browser.find_element_by_partial_link_text('uma_authorization')
+            self.browser.find_element_by_partial_link_text('uma_protection')
+        except NoSuchElementException:
+            self.fail('Scope search listing failed for term "uma"')
+
+    def test_02_add_scope(self):
+        # Step 1: Click "Add Scope" to open the add scope form
+        self.browser.find_element(*ScopeSelectors.ADD_SCOPE_BUTTON).click()
+
+        # Step 2: Fill in the details and click "Add"
+        as_page = AddScopePage(self.browser)
+        as_page.add_empty_scope('Test Scope', 'A Scope for Acceptance testing', AddScopeSelectors.OPENID, True)
+
+        # Step 3: Verify successful of addition
+        try:
+            self.browser.find_element_by_id('scopeForm:inum')
+        except NoSuchElementException:
+            self.fail('Openid Test Scope was not added')
