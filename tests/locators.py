@@ -128,4 +128,13 @@ class AddScopeSelectors(object):
     LDAP = 'LDAP'
     DYNAMIC = 'DYNAMIC'
     ADD_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add"]')
+    UPDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Update"]')
+    DELETE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Delete"]')
     ADD_CLAIM_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add Claim"]')
+    SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
+    CHECKBOX = (By.XPATH, '//input[@type="checkbox"][contains(@name, "claim")]')
+    OK_BUTTON = (By.ID, 'claim:j_idt227:j_idt269')
+    CLAIMS_SPAN = (By.ID, 'scopeForm:claims:selectedClaimsId')
+    CLAIM_REMOVE = (By.XPATH, '//a[contains(@id, "scopeForm:claims")]')
+    SEARCH_BOX = (By.XPATH, '//input[@type="text"][contains(@name, "searchPattern")]')
+    DELETE_CONFIRM_OK = (By.XPATH, '//input[@type="submit"][contains(@id, "deleteConfirmation")]')

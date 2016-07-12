@@ -1,3 +1,5 @@
+import time
+
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 
@@ -40,3 +42,25 @@ class AddScopePage(BasePage):
     def add_empty_scope(self, name, description, scope_type, default):
         self.fill_details(name, description, scope_type, default)
         self.driver.find_element(*AddScopeSelectors.ADD_BUTTON).click()
+
+    def add_claims(self):
+        self.driver.find_element(*AddScopeSelectors.ADD_CLAIM_BUTTON).click()
+        search_input = self.driver.find_element(*AddScopeSelectors.SEARCH_BOX)
+        search_input.clear()
+        search_input.send_keys('address')
+        self.driver.find_element(*AddScopeSelectors.SEARCH_BUTTON).click()
+        checks = self.driver.find_elements(*AddScopeSelectors.CHECKBOX)
+        for check in checks:
+            check.click()
+        self.driver.find_element(*AddScopeSelectors.OK_BUTTON).click()
+
+    def remove_claims(self):
+        # Somehow looping this doesn't seem to work
+        self.driver.find_element(*AddScopeSelectors.CLAIM_REMOVE).click()
+        time.sleep(0.2)
+        self.driver.find_element(*AddScopeSelectors.CLAIM_REMOVE).click()
+        time.sleep(0.2)
+        self.driver.find_element(*AddScopeSelectors.CLAIM_REMOVE).click()
+        time.sleep(0.2)
+        self.driver.find_element(*AddScopeSelectors.CLAIM_REMOVE).click()
+

@@ -1,7 +1,10 @@
 import unittest
+import time
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from .config import url, user, password
 from .pages import LoginPage
@@ -80,3 +83,36 @@ class ScopesTestCase(unittest.TestCase):
             self.browser.find_element_by_id('scopeForm:inum')
         except NoSuchElementException:
             self.fail('Openid Test Scope was not added')
+
+    def test_03_add_claims_to_scope(self):
+        # Step 1: Add claims
+        as_page = AddScopePage(self.browser)
+        as_page.add_claims()
+
+        time.sleep(1)
+        wait = WebDriverWait(self.browser, 10)
+        update_button = wait.until(EC.element_to_be_clickable(AddScopeSelectors.UPDATE_BUTTON))
+        update_button.click()
+        # Step 2: Verify
+        claims = self.browser.find_element(*AddScopeSelectors.CLAIMS_SPAN)
+        self.assertIn('Email', claims.text)
+        self.assertIn('Home Address', claims.text)
+
+    def test_04_remove_claims_from_scope(self):
+        as_page = AddScopePage(self.browser)
+        as_page.remove_claims()
+        self.browser.find_element(*AddScopeSelectors.UPDATE_BUTTON).click()
+
+        claims = self.browser.find_element(*AddScopeSelectors.CLAIMS_SPAN)
+        self.assertNotIn('Email', claims.text)
+        self.assertNotIn('Home Address', claims.text)
+
+    def test_05_delete_scope(self):
+        self.browser.find_element(*AddScopeSelectors.DELETE_BUTTON).click()
+        self.browser.find_element(*AddScopeSelectors.DELETE_CONFIRM_OK).click()
+
+        sp = ScopesPage(self.browser)
+        sp.search('Test')
+
+        with self.assertRaises(NoSuchElementException):
+            self.browser.find_element_by_link_text('Test Scope')
