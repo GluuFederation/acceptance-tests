@@ -1,10 +1,10 @@
 import time
 
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 
 from .pages import BasePage
-from .locators import ScopeSelectors, AddScopeSelectors
+from .locators import ScopeSelectors, AddScopeSelectors, ClientSelectors, \
+        AddClientSelectors
 
 
 class ScopesPage(BasePage):
@@ -64,3 +64,15 @@ class AddScopePage(BasePage):
         time.sleep(0.2)
         self.driver.find_element(*AddScopeSelectors.CLAIM_REMOVE).click()
 
+
+class ClientPage(BasePage):
+    def search(self, term):
+        search_box = self.driver.find_element(*ClientSelectors.SEARCH_BOX)
+        search_box.clear()
+        search_box.send_keys(term)
+        self.driver.find_element(*ClientSelectors.SEARCH_BUTTON).click()
+
+
+class AddClientPage(BasePage):
+    def fill_details(self):
+        pass

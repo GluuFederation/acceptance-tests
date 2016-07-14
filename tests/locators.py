@@ -53,10 +53,10 @@ class GroupSelectors(object):
 
 class AddGroupSelectors(object):
     """A class to hold the selectors for the `Add Group` page"""
-    NAME_INPUT = (By.ID, 'j_idt116:displayName:displayNameIdInput')
-    TYPE_SELECT = (By.ID, 'j_idt116:visibility:visibilityId')
-    DESCRIPTION = (By.ID, 'j_idt116:description:descriptionId')
-    ADD_BUTTON = (By.NAME, 'j_idt116:j_idt204')
+    NAME_INPUT = (By.ID, 'j_idt118:displayName:displayNameIdInput')
+    TYPE_SELECT = (By.ID, 'j_idt118:visibility:visibilityId')
+    DESCRIPTION = (By.ID, 'j_idt118:description:descriptionId')
+    ADD_BUTTON = (By.NAME, 'j_idt118:j_idt206')
     ADD_MEMBER_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add member"]')
     CANCEL_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Cancel"]')
     DELETE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Delete"]')
@@ -65,7 +65,7 @@ class AddGroupSelectors(object):
     SEARCH_INPUT = (By.XPATH, '//input[contains(@id, "searchPattern:searchMemberPatternId")]')
     MEMBER_ROWS = (By.XPATH, '//tr[contains(@id, "memberListId")]')
     USER_OK_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Ok"][contains(@id, "member")]')
-    SELECTED_MEMBERS_SPAN = (By.ID, 'j_idt116:members:selectedMembersId')
+    SELECTED_MEMBERS_SPAN = (By.ID, 'j_idt118:members:selectedMembersId')
     PUBLIC = 'PUBLIC'
     PRIVATE = 'PRIVATE'
     DELETE_OK_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Ok"][contains(@id, "deleteConfirmation")]')
@@ -73,7 +73,7 @@ class AddGroupSelectors(object):
 
 class ManagePeopleSelectors(object):
     """A class to hold the selectors for the `Manage People` page"""
-    ADD_PERSON_BUTTON = (By.ID, 'j_idt115')
+    ADD_PERSON_BUTTON = (By.ID, 'j_idt117')
     SEARCH_BOX = (By.XPATH, '//input[@type="text"][contains(@id, "search")]')
     SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
     USER_LIST_TABLE = (By.ID, 'personsFormId:personsListId')
@@ -83,18 +83,13 @@ class ManagePeopleSelectors(object):
 
 class UpdateUserSelectors(object):
     """A class to hold the `Update User` page selectors"""
-    USERNAME = (By.ID, 'j_idt119:j_idt203:0:j_idt205:0:j_idt206:custIdInput')
-    FIRST_NAME = (By.ID, 'j_idt119:j_idt203:1:j_idt205:0:j_idt206:custIdInput')
-    DISPLAY_NAME = (By.ID, 'j_idt119:j_idt203:2:j_idt205:0:j_idt206:custIdInput')
-    LAST_NAME = (By.ID, 'j_idt119:j_idt203:3:j_idt205:0:j_idt206:custIdInput')
-    EMAIL = (By.ID, 'j_idt119:j_idt203:4:j_idt205:0:j_idt206:custIdInput')
-
-    # WARN: Flaky: The IDs change due to the position change in the update form
-    USERNAME_2 = (By.ID, 'j_idt119:j_idt203:8:j_idt205:0:j_idt206:custIdInput')
-    FIRST_NAME_2 = (By.ID, 'j_idt119:j_idt203:2:j_idt205:0:j_idt206:custIdInput')
-    DISPLAY_NAME_2 = (By.ID, 'j_idt119:j_idt203:0:j_idt205:0:j_idt206:custIdInput')
-    LAST_NAME_2 = (By.ID, 'j_idt119:j_idt203:5:j_idt205:0:j_idt206:custIdInput')
-    EMAIL_2 = (By.ID, 'j_idt119:j_idt203:1:j_idt205:0:j_idt206:custIdInput')
+    USERNAME = (By.ID, 'j_idt121:j_idt204:0:j_idt206:0:j_idt207:custIdInput')
+    FIRST_NAME = (By.ID, 'j_idt121:j_idt204:1:j_idt206:0:j_idt207:custIdInput')
+    DISPLAY_NAME = (By.ID, 'j_idt121:j_idt204:2:j_idt206:0:j_idt207:custIdInput')
+    LAST_NAME = (By.ID, 'j_idt121:j_idt204:3:j_idt206:0:j_idt207:custIdInput')
+    EMAIL = (By.ID, 'j_idt121:j_idt204:4:j_idt206:0:j_idt207:custIdInput')
+    PASSWORD = (By.ID, 'j_idt121:j_idt204:5:j_idt206:0:j_idt207:custIdInput')
+    STATUS = (By.ID, 'j_idt121:j_idt204:6:j_idt206:0:j_idt207:statusId')
 
     ADD_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add"]')
     CANCEL_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Cancel"]')
@@ -122,8 +117,8 @@ class AddScopeSelectors(object):
     """A class to hold the selectors of the Add Scope page of OpenID Connect"""
     NAME = (By.ID, 'scopeForm:displayName:displayNameIdInput')
     DESCRIPTION = (By.ID, 'scopeForm:description:descriptionId')
-    SCOPE_TYPE = (By.NAME, 'scopeForm:j_idt160:j_idt171')
-    DEFAULT_SCOPE = (By.NAME, 'scopeForm:j_idt177:j_idt188')
+    SCOPE_TYPE = (By.NAME, 'scopeForm:j_idt162:j_idt173')
+    DEFAULT_SCOPE = (By.NAME, 'scopeForm:j_idt179:j_idt190')
     OPENID = 'OPENID'
     LDAP = 'LDAP'
     DYNAMIC = 'DYNAMIC'
@@ -133,8 +128,20 @@ class AddScopeSelectors(object):
     ADD_CLAIM_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add Claim"]')
     SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
     CHECKBOX = (By.XPATH, '//input[@type="checkbox"][contains(@name, "claim")]')
-    OK_BUTTON = (By.ID, 'claim:j_idt227:j_idt269')
+    OK_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Ok"][contains(@id, "claim")]')
     CLAIMS_SPAN = (By.ID, 'scopeForm:claims:selectedClaimsId')
     CLAIM_REMOVE = (By.XPATH, '//a[contains(@id, "scopeForm:claims")]')
     SEARCH_BOX = (By.XPATH, '//input[@type="text"][contains(@name, "searchPattern")]')
     DELETE_CONFIRM_OK = (By.XPATH, '//input[@type="submit"][contains(@id, "deleteConfirmation")]')
+
+
+class ClientSelectors(object):
+    """A class to hold the selectors of the OpenID Connect Clients page"""
+    SEARCH_BOX = (By.XPATH, '//input[@type="text"]')
+    SEARCH_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Search"]')
+    ADD_CLIENT_BUTTON = (By.LINK_TEXT, 'Add Client')
+
+
+class AddClientSelectors(object):
+    """A class to hold the selectors of the Add client page"""
+    pass

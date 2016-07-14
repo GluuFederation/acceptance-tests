@@ -8,8 +8,9 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from .config import url, user, password
 from .pages import LoginPage
-from .openid_pages import ScopesPage, AddScopePage
-from .locators import MenuItems, ScopeSelectors, AddScopeSelectors
+from .openid_pages import ScopesPage, AddScopePage, ClientPage, AddClientPage
+from .locators import MenuItems, ScopeSelectors, AddScopeSelectors, \
+        ClientSelectors, AddClientSelectors
 
 
 class OpenidTestCase(unittest.TestCase):
@@ -123,6 +124,7 @@ class ScopesTestCase(unittest.TestCase):
         self.assertIn('Home Address', claims.text)
 
     def test_05_remove_claims_from_scope(self):
+        # Step 1: Click and 
         as_page = AddScopePage(self.browser)
         as_page.remove_claims()
         self.browser.find_element(*AddScopeSelectors.UPDATE_BUTTON).click()
@@ -140,3 +142,45 @@ class ScopesTestCase(unittest.TestCase):
 
         with self.assertRaises(NoSuchElementException):
             self.browser.find_element_by_link_text('Updated Scope')
+
+
+class ClientsTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.browser = webdriver.Firefox()
+        cls.browser.implicitly_wait(3)
+        cls.browser.get(url)
+        lp = LoginPage(cls.browser)
+        lp.login(user, password)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.quit()
+
+    def test_01_search_and_listing_clients(self):
+        # Step 1: Navigate to the OpenID Connect Clients page
+        self.browser.find_element(*MenuItems.OPENID_CONNECT).click()
+        self.browser.find_element(*MenuItems.CLIENTS).click()
+
+        # Step 2: Search
+        cl_page = ClientPage(self.browser)
+        cl_page.search('')
+
+        try:
+            self.browser.find_element_by_partial_link_text('oxTrust')
+        except NoSuchElementException:
+            self.fail('Client Search fails to bring oxTrust')
+
+    def test_02_add_new_client(self):
+        # Step 1: Click the Add Client Button
+        self.browser.find_element(*ClientSelectors.ADD_CLIENT_BUTTON).click()
+
+        # Step 2: Create a new client
+        ac_page = AddClientPage(self.browser)
+        self.fail('TODO')
+
+    def test_03_update_client(self):
+        self.fail('TODO')
+
+    def test_04_delete_client(self):
+        self.fail('TODO')

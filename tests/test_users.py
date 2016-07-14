@@ -209,7 +209,7 @@ class ManagePeopleTestCase(unittest.TestCase):
         # Step 3: Update the user
         self.browser.find_element_by_link_text(self.username).click()
         up = UpdateUserPage(self.browser)
-        up.update_user(self.username, "Updated User", self.username, "Updated User "+self.username, self.username+"@test.org")
+        up.update_user(self.username, "Updated User", self.username, "Updated User "+self.username)
 
         # Step 4: Verify updation
         self.browser.find_element(*MenuItems.MANAGE_PEOPLE).click()
@@ -269,3 +269,4 @@ class ManagePeopleTestCase(unittest.TestCase):
             self.browser.find_element_by_link_text(u).click()
             self.browser.find_element(*UpdateUserSelectors.DELETE_BUTTON).click()
             self.browser.find_element(*UpdateUserSelectors.DELETE_CONFIRM_OK).click()
+        time.sleep(0.3) # Wait for the last delete operation to complete

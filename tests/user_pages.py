@@ -99,25 +99,22 @@ class UpdateUserPage(BasePage):
         email_input = self.driver.find_element(*UpdateUserSelectors.EMAIL)
         email_input.clear()
         email_input.send_keys(email)
+        password_input = self.driver.find_element(*UpdateUserSelectors.PASSWORD)
+        password_input.clear()
+        password_input.send_keys("password")
 
     def add_user(self, user, first, last, display, email):
         self.fill_details(user, first, last, display, email)
         self.driver.find_element(*UpdateUserSelectors.ADD_BUTTON).click()
 
-    def update_user(self, user, first, last, display, email):
-        username = self.driver.find_element(*UpdateUserSelectors.USERNAME_2)
-        username.clear()
-        username.send_keys(user)
-        first_name = self.driver.find_element(*UpdateUserSelectors.FIRST_NAME_2)
+    def update_user(self, username, first, last, display):
+        first_name = self.driver.find_element_by_xpath('//input[@value="User"]')
         first_name.clear()
         first_name.send_keys(first)
-        display_name = self.driver.find_element(*UpdateUserSelectors.DISPLAY_NAME_2)
+        display_name = self.driver.find_element_by_xpath('//input[@value="User {}"]'.format(username))
         display_name.clear()
         display_name.send_keys(display)
-        last_name = self.driver.find_element(*UpdateUserSelectors.LAST_NAME_2)
+        last_name = self.driver.find_element_by_xpath('//input[@value="{}"]'.format(username))
         last_name.clear()
         last_name.send_keys(last)
-        email_input = self.driver.find_element(*UpdateUserSelectors.EMAIL_2)
-        email_input.clear()
-        email_input.send_keys(email)
         self.driver.find_element(*UpdateUserSelectors.UPDATE_BUTTON).click()
