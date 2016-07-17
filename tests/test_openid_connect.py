@@ -177,10 +177,46 @@ class ClientsTestCase(unittest.TestCase):
 
         # Step 2: Create a new client
         ac_page = AddClientPage(self.browser)
-        self.fail('TODO')
+        ac_page.fill_details('Test Client', 'secret')
+        self.browser.find_element(*AddClientSelectors.ADD_BUTTON).click()
+
+        # Step 3: Verify the client has been added
+        self.browser.find_element(*MenuItems.CLIENTS).click()
+        cl_page = ClientPage(self.browser)
+        cl_page.search('Test')
+        try:
+            self.browser.find_element_by_partial_link_text('Test Client')
+        except NoSuchElementException:
+            self.fail('Adding a OpenID Client via WebUI failed.')
 
     def test_03_update_client(self):
-        self.fail('TODO')
+        # Step 1: Open the update client page
+        self.browser.find_element_by_partial_link_text('Test Client').click()
+
+        # Step 2: Update general details
+        ac_page = AddClientPage(self.browser)
+        ac_page.update_details('Updated Client')
+
+        # Step 3: Verify the client has been updated
+        self.browser.find_element(*MenuItems.CLIENTS).click()
+        cl_page = ClientPage(self.browser)
+        cl_page.search('Updated')
+        try:
+            self.browser.find_element_by_partial_link_text('Updated Client')
+        except NoSuchElementException:
+            self.fail('Updated a OpenID Client via WebUI failed.')
 
     def test_04_delete_client(self):
-        self.fail('TODO')
+        # Step 1: Open the update client page
+        self.browser.find_element_by_partial_link_text('Updated Client').click()
+
+        # Step 2: Update general details
+        ac_page = AddClientPage(self.browser)
+        ac_page.delete_client()
+
+        # Step 3: Confirm deletion of client
+        time.sleep(0.5)
+        cl_page = ClientPage(self.browser)
+        cl_page.search('Updated')
+        with self.assertRaises(NoSuchElementException):
+            self.browser.find_element_by_partial_link_text('Updated Client')

@@ -144,4 +144,14 @@ class ClientSelectors(object):
 
 class AddClientSelectors(object):
     """A class to hold the selectors of the Add client page"""
-    pass
+    NAME = (By.ID, 'clientForm:displayName:displayNameIdInput')
+    SECRET = (By.ID, 'clientForm:clientSecret:applicationTypeIdInput')
+    TYPE_SELECT = (By.ID, 'clientForm:applicatonType:applicationTypeId')
+    PREAUTH_SELECT = (By.ID, 'clientForm:oxAuthTrustedClientBox:trustedClientId')
+    SUBJECT_TYPE = (By.ID, 'clientForm:subjectType:subjectTypeId')
+    PERSIST_AUTH = (By.XPATH, '//select[contains(@name, "clientForm:persistClientAuthorizations")]')
+    LOGOUT = (By.XPATH, '//select[contains(@name, "clientForm:logoutSessionRequired")]')
+    ADD_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Add"]')
+    UPDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Update"]')
+    DELETE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Delete"]')
+    CONFIRM_OK = (By.XPATH, '//input[@type="submit"][@value="Ok"][contains(@id, "deleteConfirmation")]')

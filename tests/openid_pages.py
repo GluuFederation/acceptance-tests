@@ -74,5 +74,25 @@ class ClientPage(BasePage):
 
 
 class AddClientPage(BasePage):
-    def fill_details(self):
-        pass
+    def fill_details(self, name, secret):
+        # fills in the only required values, everything else is left to be the defaults
+        name_input = self.driver.find_element(*AddClientSelectors.NAME)
+        name_input.clear()
+        name_input.send_keys(name)
+        secret_input = self.driver.find_element(*AddClientSelectors.SECRET)
+        secret_input.clear()
+        secret_input.send_keys(secret)
+        persist_select = Select(self.driver.find_element(*AddClientSelectors.PERSIST_AUTH))
+        persist_select.select_by_value(str(True).upper())
+        logout_select = Select(self.driver.find_element(*AddClientSelectors.LOGOUT))
+        logout_select.select_by_value(str(True).upper())
+
+    def update_details(self, name):
+        name_input = self.driver.find_element(*AddClientSelectors.NAME)
+        name_input.clear()
+        name_input.send_keys(name)
+        self.driver.find_element(*AddClientSelectors.UPDATE_BUTTON).click()
+
+    def delete_client(self):
+        self.driver.find_element(*AddClientSelectors.DELETE_BUTTON).click()
+        self.driver.find_element(*AddClientSelectors.CONFIRM_OK).click()
