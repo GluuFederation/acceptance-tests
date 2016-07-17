@@ -17,9 +17,7 @@ class CASLoginTestCase(unittest.TestCase):
     def tearDownClass(cls):
         cls.browser.quit()
 
-    def test_login_success(self):
-        """Admin can login with the password.
-        """
+    def test_01_cas_login(self):
         # Step 1: Open the homepage of the installation
         self.browser.get(url+"/cas/login")
 
@@ -39,9 +37,10 @@ class CASLoginTestCase(unittest.TestCase):
         msgdiv = self.browser.find_element_by_id('msg')
         self.assertIn('Log In Successful', msgdiv.text)
 
-        # Step 4: Logout
+    def test_02_cas_logout(self):
+        # Step 1: Go to the logout URL
         self.browser.get(url+"/cas/logout")
+
+        # Step 2: Verify that the logout is successful
         msgdiv = self.browser.find_element_by_id('msg')
         self.assertIn('Logout successful', msgdiv.text)
-
-
