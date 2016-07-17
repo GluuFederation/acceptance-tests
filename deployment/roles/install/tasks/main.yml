@@ -1,0 +1,19 @@
+---
+- name: Add Gluu Server Development Repo
+  apt_repository:
+    repo: deb https://repo.gluu.org/ubuntu/ trusty-devel main
+    state: present
+    filename: gluu-repo
+
+- name: Add the Repo Apt Key
+  apt_key:
+    url: https://repo.gluu.org/ubuntu/gluu-apt.key
+    state: present
+
+- name: Install Gluu Server 2.4.4
+  apt:
+    name: gluu-server-2.4.4
+    state: latest
+    force: yes
+    update_cache: yes
+  notify: start gluu-server

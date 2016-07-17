@@ -1,0 +1,5 @@
+---
+- hosts: testing
+  user: root
+  roles:
+   - install

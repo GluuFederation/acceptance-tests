@@ -1,0 +1,5 @@
+---
+- name: start gluu-server
+  service:
+    name: gluu-server-2.4.4
+    state: started
