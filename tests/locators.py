@@ -104,6 +104,7 @@ class ImportPeopleSelectors(object):
     FILE_INPUT = (By.XPATH, '//input[@type="file"]')
     IMPORT_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Import"]')
     VALIDATE_BUTTON = (By.XPATH, '//input[@type="submit"][@value="Validate"]')
+    REMOVE_LINK = (By.LINK_TEXT, 'Remove')
 
 
 class ScopeSelectors(object):

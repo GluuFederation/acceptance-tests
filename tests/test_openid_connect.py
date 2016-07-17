@@ -215,7 +215,7 @@ class ClientsTestCase(unittest.TestCase):
         ac_page.delete_client()
 
         # Step 3: Confirm deletion of client
-        time.sleep(0.5)
+        time.sleep(1)
         cl_page = ClientPage(self.browser)
         cl_page.search('Updated')
         with self.assertRaises(NoSuchElementException):

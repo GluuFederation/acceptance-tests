@@ -242,11 +242,12 @@ class ManagePeopleTestCase(unittest.TestCase):
         file_input = self.browser.find_element(*ImportPeopleSelectors.FILE_INPUT)
         directory = os.path.dirname(os.path.realpath(__file__))
         file_input.send_keys(os.path.join(directory, "data", "sample_users.xls"))
+        wait = WebDriverWait(self.browser, 10)
+        remove_link = wait.until(EC.element_to_be_clickable(ImportPeopleSelectors.REMOVE_LINK))
         # Step 3: Validate the document
         self.browser.find_element(*ImportPeopleSelectors.VALIDATE_BUTTON).click()
         # Step 4: Import and verify
         try:
-            wait = WebDriverWait(self.browser, 10)
             import_button = wait.until(EC.element_to_be_clickable(ImportPeopleSelectors.IMPORT_BUTTON))
             import_button.click()
         except TimeoutException:
