@@ -4,6 +4,14 @@
     repo: deb https://repo.gluu.org/ubuntu/ trusty-devel main
     state: present
     filename: gluu-repo
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "14")
+
+- name: Add Gluu Server Development Repo
+  apt_repository:
+    repo: deb https://repo.gluu.org/ubuntu/ xenial-devel main
+    state: present
+    filename: gluu-repo
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version == "16")
 
 - name: Add the Repo Apt Key
   apt_key:
