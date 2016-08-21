@@ -2,7 +2,8 @@ import unittest
 import time
 
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, \
+        ElementNotVisibleException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -206,9 +207,39 @@ class ClientsTestCase(unittest.TestCase):
         except NoSuchElementException:
             self.fail('Updated a OpenID Client via WebUI failed.')
 
-    def test_04_delete_client(self):
+    def test_04_add_and_remove_logout_uri_for_client(self):
+        uri = 'https://dummy.logout.uri'
+        # Step 1: Open the updated client
+        self.browser.find_element_by_partial_link_text(
+                'Updated Client').click()
+
+        # Step 2: Add Logout URI and verify the addition
+        ac_page = AddClientPage(self.browser)
+        ac_page.add_logout_uri(uri)
+        time.sleep(1)
+        logout_span = self.browser.find_element(
+                *AddClientSelectors.LOGOUT_URIS_SPAN)
+        self.assertIn(uri, logout_span.text)
+
+        # Step 3: Remove the added Logout URI
+        self.browser.find_element(*AddClientSelectors.LOGOUT_URI_1).click()
+        # Step 4: Confirm that the URI has been removed
+        logout_span = self.browser.find_element(
+                *AddClientSelectors.LOGOUT_URIS_SPAN)
+        self.assertNotIn(uri, logout_span.text)
+
+    def test_05_delete_client(self):
         # Step 1: Open the update client page
-        self.browser.find_element_by_partial_link_text('Updated Client').click()
+        try:
+            self.browser.find_element(*MenuItems.CLIENTS).click()
+        except ElementNotVisibleException:
+            self.browser.find_element(*MenuItems.OPENID_CONNECT).click()
+            self.browser.find_element(*MenuItems.CLIENTS).click()
+
+        cl_page = ClientPage(self.browser)
+        cl_page.search('Updated')
+        self.browser.find_element_by_partial_link_text(
+                'Updated Client').click()
 
         # Step 2: Update general details
         ac_page = AddClientPage(self.browser)

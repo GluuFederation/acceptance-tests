@@ -1,6 +1,8 @@
 import time
 
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from .pages import BasePage
 from .locators import ScopeSelectors, AddScopeSelectors, ClientSelectors, \
@@ -96,3 +98,11 @@ class AddClientPage(BasePage):
     def delete_client(self):
         self.driver.find_element(*AddClientSelectors.DELETE_BUTTON).click()
         self.driver.find_element(*AddClientSelectors.CONFIRM_OK).click()
+
+    def add_logout_uri(self, uri):
+        self.driver.find_element(*AddClientSelectors.ADD_LOGOUT_URI).click()
+        wait = WebDriverWait(self.driver, 10)
+        uri_input = wait.until(EC.element_to_be_clickable(AddClientSelectors.LOGOUT_URI_INPUT))
+        uri_input.clear()
+        uri_input.send_keys(uri)
+        self.driver.find_element(*AddClientSelectors.LOGOUT_URI_OK).click()
