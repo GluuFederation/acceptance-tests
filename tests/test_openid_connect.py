@@ -223,6 +223,7 @@ class ClientsTestCase(unittest.TestCase):
 
         # Step 3: Remove the added Logout URI
         self.browser.find_element(*AddClientSelectors.LOGOUT_URI_1).click()
+        time.sleep(0.5)
         # Step 4: Confirm that the URI has been removed
         logout_span = self.browser.find_element(
                 *AddClientSelectors.LOGOUT_URIS_SPAN)
@@ -232,7 +233,7 @@ class ClientsTestCase(unittest.TestCase):
         # Step 1: Open the update client page
         try:
             self.browser.find_element(*MenuItems.CLIENTS).click()
-        except ElementNotVisibleException:
+        except (NoSuchElementException, ElementNotVisibleException):
             self.browser.find_element(*MenuItems.OPENID_CONNECT).click()
             self.browser.find_element(*MenuItems.CLIENTS).click()
 
