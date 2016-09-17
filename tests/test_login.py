@@ -7,6 +7,8 @@ import unittest
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from .config import url, user, password
 from .pages import LoginPage
@@ -60,3 +62,39 @@ class LoginTestCase(unittest.TestCase):
 
         # Step 3: User sees an error message
         self.assertIn('Please use correct username', loginpage.message())
+
+
+class SimultaneousUserLoginTest(unittest.TestCase):
+
+    def test_login_success(self):
+        self.browser1 = webdriver.Firefox()
+        self.browser2 = webdriver.Firefox()
+
+        for i in range(100):
+            # Step 1: Open the homepage of the installation
+            self.browser1.get(url)
+            self.browser2.get(url)
+
+            # Step 2: Enter the username and the password in the login box
+            loginpage1 = LoginPage(self.browser1)
+            loginpage2 = LoginPage(self.browser2)
+            loginpage1.login(user, password)
+            loginpage2.login(user, password)
+
+            # Step 3: Assert that the login is sucessful
+            h1_1 = self.browser1.find_element_by_tag_name('h1')
+            self.assertIn('Welcome', h1_1.text)
+            h1_2 = self.browser2.find_element_by_tag_name('h1')
+            self.assertIn('Welcome', h1_2.text)
+
+            # Step 4: Logout
+            self.browser1.get(url+"/identity/logout")
+            self.browser2.get(url+"/identity/logout")
+
+            wait = WebDriverWait(self.browser1, 10)
+            wait.until(EC.title_is('Gluu'))
+            wait = WebDriverWait(self.browser2, 10)
+            wait.until(EC.title_is('Gluu'))
+
+        self.browser1.quit()
+        self.browser2.quit()
